@@ -1,5 +1,11 @@
 const express = require('express');
 const axios = require('axios');
+const rateLimit = require("express-rate-limit");
+
+const limiter = rateLimit({
+  windowMs: 30 * 1000, // 30 seconds
+  max: 30 // limit each IP to 2 requests per windowMs
+});
 
 const router = express.Router();
 
@@ -8,7 +14,7 @@ const BASE_URL = `https://api.nasa.gov/insight_weather/?`
 let cacheData;
 let cacheTime;
 
-router.get('/', async (req, res, next) => {
+router.get('/', limiter, async (req, res, next) => {
     // Memori cache
     if (cacheTime && cacheTime > Date.now() - 30 * 1000) {
         return res.json(cacheData);
