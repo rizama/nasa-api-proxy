@@ -1,4 +1,4 @@
-# Express API Starter
+In this project we will implement hide Key-API, caching, rate-limit, slow-down request
 
 Includes API Server utilities:
 
